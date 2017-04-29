@@ -8,6 +8,8 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.service.ServiceRegistry;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 import java.util.List;
 
 /**
@@ -30,12 +32,17 @@ public class SessionManager {
         //Open a session
         Session session = sessionFactory.openSession();
         // Create criteria
-        Criteria criteria = session.createCriteria(Country.class);
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+        CriteriaQuery<Country> criteria = builder.createQuery(Country.class);
+
+        criteria.from(Country.class);
+//        Criteria criteria = session.createCriteria(Country.class);
         // Get a list of Countries objects according to the Criteria object
-        List<Country> countries = criteria.list();
+        List<Country> countries = session.createQuery(criteria).getResultList();
         //Close a session
         session.close();
         countries.stream().forEach(System.out::println);
+        System.out.println(countries.size());
         return countries;
     }
     public String test(){

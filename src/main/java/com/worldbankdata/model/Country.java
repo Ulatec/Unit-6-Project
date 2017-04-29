@@ -88,4 +88,26 @@ public class Country {
             return new Country(this);
         }
     }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Country country = (Country) o;
+
+        if (code != null ? !code.equals(country.code) : country.code != null) return false;
+        if (name != null ? !name.equals(country.name) : country.name != null) return false;
+        if (internetUsers != null ? !internetUsers.equals(country.internetUsers) : country.internetUsers != null)
+            return false;
+        return adultLiteracyRate != null ? adultLiteracyRate.equals(country.adultLiteracyRate) : country.adultLiteracyRate == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = code != null ? code.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (internetUsers != null ? internetUsers.hashCode() : 0);
+        result = 31 * result + (adultLiteracyRate != null ? adultLiteracyRate.hashCode() : 0);
+        return result;
+    }
 }

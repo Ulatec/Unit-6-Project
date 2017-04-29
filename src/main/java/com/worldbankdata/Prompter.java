@@ -16,18 +16,19 @@ public class Prompter {
     private BufferedReader mReader;
     private Map<String, String> options;
     private SessionManager sessionManager;
+
     public Prompter(){
         mReader = new BufferedReader(new InputStreamReader(System.in));
         options = new LinkedHashMap<String, String>();
         buildMenu();
-        sessionManager = new SessionManager();
+        this.sessionManager = new SessionManager();
     }
     public static void listOptions(){
 
     }
 
     private String promptAction()throws IOException{
-        System.out.printf("%n Main Menu: %n");
+        System.out.printf("%n Main Menu: %n");2
         for(Map.Entry<String,String> option : options.entrySet()){
             System.out.printf("%s - %s %n", option.getKey(), option.getValue());
         }
