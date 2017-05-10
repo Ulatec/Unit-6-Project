@@ -11,14 +11,10 @@ import org.hibernate.service.ServiceRegistry;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import java.math.BigDecimal;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by mark on 4/25/2017.
- */
 public class CountryDaoImplementation implements CountryDAO {
     //private SessionFactory sessionFactory;
     // Hold a reusable reference to a SessionFactory (since we need only one)

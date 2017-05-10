@@ -6,15 +6,10 @@ import com.worldbankdata.model.Country;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
 
-/**
- * Created by mark on 4/24/2017.
- */
 public class Prompter {
     private BufferedReader mReader;
     private Map<String, String> options;
@@ -40,12 +35,11 @@ public class Prompter {
 
     private void buildMenu(){
         //LinkedHashMap to maintain menu order.
-        options.put("list entries","List all Database Entries");
-        options.put("add test", "Add a test entry");
-        options.put("add player", "Add a player to a Team Roster");
-        options.put("remove player", "Remove a player from a team roster.");
-        options.put("experience report", "Print high-level experience report.");
-        options.put("list all players", "List available players");
+        options.put("list entries","List all database entries");
+        options.put("add", "Add a new country to the database");
+        options.put("edit", "Edit a country in the database.");
+        options.put("delete", "Delete and entry from the database.");
+        options.put("show stats", "Print basic statistical information regarding the countries in the database.");
         options.put("quit","Exit the application.");
     }
     public void run(){
@@ -64,14 +58,8 @@ public class Prompter {
                     case "edit":
                         edit(select());
                         break;
-                    case "select":
-                        System.out.print(select());
-                        break;
                     case "delete":
                         delete(select());
-                        break;
-                    case "test":
-                        test();
                         break;
                     case "show stats":
                         showStatistics();
@@ -85,11 +73,6 @@ public class Prompter {
         }while(!choice.equals("quit"));
     }
 
-    private void test(){
-        Country testCountry = sessionManager.findCountryByCode("ZZZ");
-        testCountry.setName("AYYLMAO");
-        sessionManager.update(testCountry);
-    }
 
     private void edit(Country country) {
         Country editCountry = sessionManager.findCountryByCode(country.getCode());

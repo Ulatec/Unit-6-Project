@@ -1,8 +1,5 @@
 package com.worldbankdata.model;
 
-/**
- * Created by mark on 4/28/2017.
- */
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
