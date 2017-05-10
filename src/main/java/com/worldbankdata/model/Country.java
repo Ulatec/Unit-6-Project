@@ -1,7 +1,11 @@
 package com.worldbankdata.model;
 
-
-import javax.persistence.*;
+/**
+ * Created by mark on 4/28/2017.
+ */
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Entity
 public class Country {
@@ -12,16 +16,18 @@ public class Country {
     private String name;
     @Column(columnDefinition = "Decimal(11,8)")
     private Double internetUsers;
-    @Column(columnDefinition = "Decimal(11,8)")
+    @Column(columnDefinition = "Decimal(11,8)") // "... default '100.00'"
     private Double adultLiteracyRate;
 
-    public Country() {}
+    // Default constructor for JPA
+    public Country() {
+    }
 
-    public Country (CountryBuilder countryBuilder){
-        this.code = countryBuilder.code;
-        this.name = countryBuilder.name;
-        this.internetUsers = countryBuilder.internetUsers;
-        this.adultLiteracyRate = countryBuilder.adultLiteracyRate;
+    public Country(CountryBuilder builder) {
+        this.code = builder.code;
+        this.name = builder.name;
+        this.internetUsers = builder.internetUsers;
+        this.adultLiteracyRate = builder.adultLiteracyRate;
     }
 
     @Override
@@ -66,48 +72,31 @@ public class Country {
         this.adultLiteracyRate = adultLiteracyRate;
     }
 
-    public static class CountryBuilder{
+    public static class CountryBuilder {
+
         private String code;
         private String name;
         private Double internetUsers;
         private Double adultLiteracyRate;
 
-        public CountryBuilder (String code, String name){
+        public CountryBuilder(String code, String name) {
             this.code = code;
             this.name = name;
         }
-        public CountryBuilder withInternetUsers(Double users){
-            this.internetUsers = users;
+
+        public CountryBuilder withInternetUsers(Double internetUsers) {
+            this.internetUsers = internetUsers;
             return this;
         }
-        public CountryBuilder withAdultLiteracyRate(Double literacyRate){
-            this.adultLiteracyRate = literacyRate;
+
+        public CountryBuilder withLiteracyRate(Double adultLiteracyRate) {
+            this.adultLiteracyRate = adultLiteracyRate;
             return this;
         }
-        public Country build(){
+
+        public Country build() {
             return new Country(this);
         }
-    }
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
 
-        Country country = (Country) o;
-
-        if (code != null ? !code.equals(country.code) : country.code != null) return false;
-        if (name != null ? !name.equals(country.name) : country.name != null) return false;
-        if (internetUsers != null ? !internetUsers.equals(country.internetUsers) : country.internetUsers != null)
-            return false;
-        return adultLiteracyRate != null ? adultLiteracyRate.equals(country.adultLiteracyRate) : country.adultLiteracyRate == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = code != null ? code.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
-        result = 31 * result + (internetUsers != null ? internetUsers.hashCode() : 0);
-        result = 31 * result + (adultLiteracyRate != null ? adultLiteracyRate.hashCode() : 0);
-        return result;
     }
 }

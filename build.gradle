@@ -13,4 +13,5 @@ dependencies {
     compile 'org.hibernate:hibernate-core:5.2.10.Final'
     compile 'com.h2database:h2:1.4.194'
     compile 'javax.transaction:jta:1.1'
+    compile 'org.apache.commons:commons-math3:3.0'
 }
