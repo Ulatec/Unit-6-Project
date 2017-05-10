@@ -13,13 +13,13 @@ public class Country {
     private String name;
     @Column(columnDefinition = "Decimal(11,8)")
     private Double internetUsers;
-    @Column(columnDefinition = "Decimal(11,8)") // "... default '100.00'"
+    @Column(columnDefinition = "Decimal(11,8)")
     private Double adultLiteracyRate;
 
     // Default constructor for JPA
     public Country() {
     }
-
+    //Build Country from CountryBuilder
     public Country(CountryBuilder builder) {
         this.code = builder.code;
         this.name = builder.name;
@@ -41,6 +41,7 @@ public class Country {
         return code;
     }
 
+    // setCode should never really get used, due to the the code being the key in the database. But I am leaving it here for consistency.
     public void setCode(String code) {
         this.code = code;
     }

@@ -2,7 +2,6 @@ package com.worldbankdata.DAO;
 
 import com.worldbankdata.model.Country;
 import org.apache.commons.math3.stat.correlation.PearsonsCorrelation;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
@@ -50,7 +49,7 @@ public class CountryDaoImplementation implements CountryDAO {
 
         return countries;
     }
-    public String save(Country country){
+    public void save(Country country){
 
         //Open a session
         Session session = sessionFactory.openSession();
@@ -62,7 +61,6 @@ public class CountryDaoImplementation implements CountryDAO {
         session.getTransaction().commit();
         // Close the session
         session.close();
-        return id;
     }
     private List<Country> nonNullCountries(){
         return fetchAllCountries().stream().filter( country -> country.getInternetUsers() != null && country.getAdultLiteracyRate() != null).collect(Collectors.toList());
@@ -100,35 +98,28 @@ public class CountryDaoImplementation implements CountryDAO {
         session.close();
     }
     public Country getMaxInternetUsers(){
-        Country countryMax = nonNullCountries().stream()
+        return nonNullCountries().stream()
                 .max(Comparator.comparingDouble(Country::getInternetUsers))
                 .get();
-        return countryMax;
     }
 
     public Country getMinInternetUsers() {
-        Country countryMin = nonNullCountries().stream()
+        return nonNullCountries().stream()
                 .min(Comparator.comparingDouble(Country::getInternetUsers))
                 .get();
-        return countryMin;
     }
     public Country getMaxAdultLiteracy() {
-        Country countryMax = nonNullCountries().stream()
+        return nonNullCountries().stream()
                 .max(Comparator.comparingDouble(Country::getAdultLiteracyRate))
                 .get();
-        return countryMax;
     }
     public Country getMinAdultLiteracy(){
-        Country countryMin = nonNullCountries().stream()
+        return nonNullCountries().stream()
                 .min(Comparator.comparingDouble(Country::getAdultLiteracyRate))
                 .get();
-        return countryMin;
     }
 
     public Double correlationCoefficient(){
-        //Double correlationCoefficient = new Double(0);
-
-
         double[] adultLiteracyRates = new double[nonNullCountries().size()];
         double[] internetUsers = new double[nonNullCountries().size()];
         int i = 0;
@@ -140,8 +131,6 @@ public class CountryDaoImplementation implements CountryDAO {
                 i++;
             }
         }
-
-
         PearsonsCorrelation correlationCoefficient = new PearsonsCorrelation();
         return correlationCoefficient.correlation(adultLiteracyRates, internetUsers);
     }

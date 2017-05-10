@@ -1,6 +1,5 @@
 package com.worldbankdata;
 
-
 import com.worldbankdata.controller.Prompter;
 
 public class Application {

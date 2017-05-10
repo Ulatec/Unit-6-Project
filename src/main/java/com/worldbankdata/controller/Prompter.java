@@ -17,7 +17,7 @@ public class Prompter {
 
     public Prompter(){
         mReader = new BufferedReader(new InputStreamReader(System.in));
-        options = new LinkedHashMap<String, String>();
+        options = new LinkedHashMap<>();
         sessionManager = new CountryDaoImplementation();
         buildMenu();
     }
@@ -64,13 +64,13 @@ public class Prompter {
                     case "show stats":
                         showStatistics();
                         break;
-                    case "exit":
-                        break;
                 }
             }catch(IOException ioe){
                 System.out.println("Error parsing input! Let's try again! %n");
             }
         }while(!choice.equals("quit"));
+        System.out.println("Goodbye!");
+        System.exit(0);
     }
 
 
@@ -98,22 +98,6 @@ public class Prompter {
         sessionManager.update(editCountry);
     }
 
-    private String newCode(Country country){
-        System.out.printf("The current country code is %s. %n", country.getCode());
-        System.out.printf("Please enter a new country code (leave blank to leave unchanged):");
-        String newCodeString = null;
-        do{
-            try {
-                newCodeString = mReader.readLine();
-                if(newCodeString.equals("")){
-                    return null;
-                }
-            }catch(IOException exception){
-                System.out.println("Sorry, that was not a valid code");
-            }
-        }while(newCodeString == null);
-        return newCodeString;
-    }
     private String newName(Country country){
         System.out.printf("The current country name is %s. %n", country.getName());
         System.out.printf("Please enter a new country name:");
@@ -172,18 +156,17 @@ public class Prompter {
         System.out.printf("===========================================================================================================%n");
         for(Country country : countries){
 
-            //System.out.printf("");
             String internetUsersAsString;
             String adultLiteracyAsString;
             if(country.getInternetUsers() != null) {
-                internetUsersAsString = country.getInternetUsers().toString();
+                internetUsersAsString = String.format("%.2f", country.getInternetUsers());
             }else{
-                internetUsersAsString = "----";
+                internetUsersAsString = "--";
             }
             if(country.getAdultLiteracyRate() != null) {
-                adultLiteracyAsString = country.getAdultLiteracyRate().toString();
+                adultLiteracyAsString = String.format("%.2f", country.getAdultLiteracyRate());
             }else{
-                adultLiteracyAsString = "----";
+                adultLiteracyAsString = "--";
             }
             System.out.printf("%-30s %-30s %-30s %-30s %n", country.getName(), country.getCode(), adultLiteracyAsString, internetUsersAsString);
         }
@@ -212,7 +195,7 @@ public class Prompter {
     private void add(Country country){
         sessionManager.save(country);
     }
-    
+
 
     private Country select(){
         List<Country> countries = sessionManager.fetchAllCountries();
@@ -242,10 +225,10 @@ public class Prompter {
     }
 
     private void showStatistics(){
-        System.out.printf("Most Internet users: %s - %s %n", sessionManager.getMaxInternetUsers().getName(), sessionManager.getMaxInternetUsers().getInternetUsers());
-        System.out.printf("Least Internet users: %s - %s %n", sessionManager.getMinInternetUsers().getName(), sessionManager.getMinInternetUsers().getInternetUsers());
-        System.out.printf("Highest adult literacy rate: %s - %s %n", sessionManager.getMaxAdultLiteracy().getName(), sessionManager.getMaxAdultLiteracy().getAdultLiteracyRate());
-        System.out.printf("Lowest adult literacy rate: %s - %s %n", sessionManager.getMinAdultLiteracy().getName(), sessionManager.getMinAdultLiteracy().getAdultLiteracyRate());
-        System.out.printf("Correlation coefficient between adult literacy and internet users: %s %n", sessionManager.correlationCoefficient());
+        System.out.printf("Most Internet users: %s - %.2f %n", sessionManager.getMaxInternetUsers().getName(), sessionManager.getMaxInternetUsers().getInternetUsers());
+        System.out.printf("Least Internet users: %s - %.2f %n", sessionManager.getMinInternetUsers().getName(), sessionManager.getMinInternetUsers().getInternetUsers());
+        System.out.printf("Highest adult literacy rate: %s - %.2f %n", sessionManager.getMaxAdultLiteracy().getName(), sessionManager.getMaxAdultLiteracy().getAdultLiteracyRate());
+        System.out.printf("Lowest adult literacy rate: %s - %.2f %n", sessionManager.getMinAdultLiteracy().getName(), sessionManager.getMinAdultLiteracy().getAdultLiteracyRate());
+        System.out.printf("Correlation coefficient between adult literacy and internet users: %.2f %n", sessionManager.correlationCoefficient());
     }
 }

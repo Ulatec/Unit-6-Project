@@ -3,7 +3,7 @@ package com.worldbankdata.DAO;
 import com.worldbankdata.model.Country;
 
 public interface CountryDAO {
-    String save(Country country);
+    void save(Country country);
     Country findCountryByCode(String code);
     void delete(Country country);
     void update(Country country);
