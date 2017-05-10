@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CountryDaoImplementation implements CountryDAO {
-    //private SessionFactory sessionFactory;
     // Hold a reusable reference to a SessionFactory (since we need only one)
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -56,7 +55,7 @@ public class CountryDaoImplementation implements CountryDAO {
         //Begin a transaction
         session.beginTransaction();
         //Use the session to save the contact
-        String id = (String) session.save(country);
+        session.save(country);
         //Commit the transaction
         session.getTransaction().commit();
         // Close the session
@@ -82,7 +81,9 @@ public class CountryDaoImplementation implements CountryDAO {
         session.beginTransaction();
         //Retrieve the persistent object (or null if not found)
         session.delete(country);
+        //Apply changes in transaction
         session.getTransaction().commit();
+        //Close the session
         session.close();
     }
     public void update(Country country){
