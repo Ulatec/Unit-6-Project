@@ -212,11 +212,7 @@ public class Prompter {
     private void add(Country country){
         sessionManager.save(country);
     }
-
-    private void addTest(){
-        Country newCountry = new Country.CountryBuilder("XXX", "Pornoland").withLiteracyRate(new Double(100)).withInternetUsers(new Double(100)).build();
-        System.out.printf("ID:" + sessionManager.save(newCountry) + "%n");
-    }
+    
 
     private Country select(){
         List<Country> countries = sessionManager.fetchAllCountries();
